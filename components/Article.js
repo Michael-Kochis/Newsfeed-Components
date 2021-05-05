@@ -110,23 +110,41 @@ function articleMaker(article) {
   this.paragraphs.push(article.firstParagraph);
   this.paragraphs.push(article.secondParagraph);
   this.paragraphs.push(article.thirdParagraph);
-  this.contents = "";
+  this.contents = [];
   
   this.paragraphs.forEach((item) => { 
-      let neoString = "<p>" + item + "</p>\n"
-      this.contents = this.contents.concat(neoString);
+      let neoString = document.createElement('p');
+      neoString.innerHTML = item;
+      this.contents.push(neoString);
   });
 
-  return (
-    `<div class="article">
-    <h2>${this.title}</h2>
-    <p class="date">${this.date}</p>
+  let divArticle = document.createElement('div');
+  divArticle.className = "article";
 
-    ${this.contents}
+  this.titleBar = document.createElement("h2");
+  this.titleBar.innerHTML = this.title;
+  divArticle.appendChild(this.titleBar);
 
-    <span class="expandButton">+</span>
-  </div>`
-  )
+  this.dateBar = document.createElement("p");
+  this.titleBar.innerHTML = this.date;
+  this.titleBar.className = "date";
+  divArticle.appendChild(this.titleBar);
+
+  this.contents.forEach((item) => {
+    divArticle.appendChild(item); 
+  });
+
+  function toggleExpand() {
+    divArticle.classList.toggle("article-expand");
+  }
+
+  let expandButton = document.createElement("span");
+  expandButton.className = "expandButton";
+  expandButton.addEventListener("click", toggleExpand);
+  expandButton.innerHTML = "+";
+  divArticle.appendChild(expandButton);
+
+  return divArticle;
 }
 
 /*
@@ -137,7 +155,14 @@ function articleMaker(article) {
 
   Step 4: Outside your function now, loop over the data. At each iteration you'll use your component
   to create a div.article element and append it to the DOM inside div.articles (see index.html).
+  */
+ let articlesDiv = document.querySelector("div.articles");
+data.forEach((item) => {
+  let neoArticle = articleMaker(item);
+  articlesDiv.append(neoArticle);
+});
 
+/*
   Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.
   Refresh the page to see the new article.
 */
