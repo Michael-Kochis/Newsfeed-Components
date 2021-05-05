@@ -102,7 +102,35 @@ const data = [
 
     <span class="expandButton">+</span>
   </div>
+  */
+function articleMaker(article) {
+  this.title = article.title
+  this.date = article.date;
+  this.paragraphs = [];
+  this.paragraphs.push(article.firstParagraph);
+  this.paragraphs.push(article.secondParagraph);
+  this.paragraphs.push(article.thirdParagraph);
+  this.contents = "";
+  
+  this.paragraphs.forEach((item) => { 
+      let neoString = "<p>" + item + "</p>\n"
+      this.contents = this.contents.concat(neoString);
+  });
 
+  return (
+    `<div class="article">
+    <h2>${this.title}</h2>
+    <p class="date">${this.date}</p>
+
+    ${this.contents}
+
+    <span class="expandButton">+</span>
+  </div>`
+  )
+}
+
+console.log(articleMaker(data[0]));
+/*
   Step 2: Still inside `articleMaker`, add an event listener to the span.expandButton.
   This listener should toggle the class 'article-open' on div.article.
 
