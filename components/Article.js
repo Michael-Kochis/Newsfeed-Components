@@ -135,7 +135,7 @@ function articleMaker(article) {
   });
 
   function toggleExpand() {
-    divArticle.classList.toggle("article-expand");
+    divArticle.classList.toggle("article-open");
   }
 
   let expandButton = document.createElement("span");
