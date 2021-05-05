@@ -102,7 +102,52 @@ const data = [
 
     <span class="expandButton">+</span>
   </div>
+  */
+function articleMaker(article) {
+  this.title = article.title
+  this.date = article.date;
+  this.paragraphs = [];
+  this.paragraphs.push(article.firstParagraph);
+  this.paragraphs.push(article.secondParagraph);
+  this.paragraphs.push(article.thirdParagraph);
+  this.contents = [];
+  
+  this.paragraphs.forEach((item) => { 
+      let neoString = document.createElement('p');
+      neoString.innerHTML = item;
+      this.contents.push(neoString);
+  });
 
+  let divArticle = document.createElement('div');
+  divArticle.className = "article";
+
+  this.titleBar = document.createElement("h2");
+  this.titleBar.innerHTML = this.title;
+  divArticle.appendChild(this.titleBar);
+
+  this.dateBar = document.createElement("p");
+  this.titleBar.innerHTML = this.date;
+  this.titleBar.className = "date";
+  divArticle.appendChild(this.titleBar);
+
+  this.contents.forEach((item) => {
+    divArticle.appendChild(item); 
+  });
+
+  function toggleExpand() {
+    divArticle.classList.toggle("article-open");
+  }
+
+  let expandButton = document.createElement("span");
+  expandButton.className = "expandButton";
+  expandButton.addEventListener("click", toggleExpand);
+  expandButton.innerHTML = "+";
+  divArticle.appendChild(expandButton);
+
+  return divArticle;
+}
+
+/*
   Step 2: Still inside `articleMaker`, add an event listener to the span.expandButton.
   This listener should toggle the class 'article-open' on div.article.
 
@@ -110,7 +155,14 @@ const data = [
 
   Step 4: Outside your function now, loop over the data. At each iteration you'll use your component
   to create a div.article element and append it to the DOM inside div.articles (see index.html).
+  */
+ let articlesDiv = document.querySelector("div.articles");
+data.forEach((item) => {
+  let neoArticle = articleMaker(item);
+  articlesDiv.append(neoArticle);
+});
 
+/*
   Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.
   Refresh the page to see the new article.
 */
